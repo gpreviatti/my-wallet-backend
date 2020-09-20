@@ -5,9 +5,15 @@ System to control finnaces and stock portifolio
 ## Todo
 
 - [x] Create laravel project
+- [ ] [Add Jwt Autentication](https://shabang.dev/
+- [x] Add DER
 - [ ] Add Migrations
 - [ ] Add Models
-- [ ] [Add Jwt Autentication](https://shabang.dev/laravel-8-rest-api-authentication-with-jwt-tutorial-by-example/)
+laravel-8-rest-api-authentication-with-jwt-tutorial-by-example/)
 - [ ] Add Controllers
 - [ ] Add Postman documentation
 - [ ] Deploy at heroku
+
+## DER
+
+![der](./public/my-wallet-der.png)
