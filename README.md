@@ -12,6 +12,7 @@ System to control finnaces and stock portifolio
 - [ ] Add Models
 - [ ] Add Controllers
 - [ ] Add Postman documentation
+  - [x] JWTAuthController
 - [ ] Deploy at heroku
 
 ## DER
