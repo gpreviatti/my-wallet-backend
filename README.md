@@ -5,8 +5,9 @@ System to control finnaces and stock portifolio
 ## Todo
 
 - [x] Create laravel project
-- [ ] [Add Jwt Autentication](https://shabang.dev/laravel-8-rest-api-authentication-with-jwt-tutorial-by-example/)
+- [x] [Add Jwt Autentication](https://codezen.io/laravel-7-rest-api-using-jwt-authentication/)
 - [x] Add DER
+- [ ] [Add Laravel Schematics] (https://github.com/mtolhuys/laravel-schematics)
 - [ ] Add Migrations
 - [ ] Add Models
 - [ ] Add Controllers
