@@ -6,7 +6,7 @@ System to control finnaces and stock portifolio
 
 - [x] Create laravel project
 - [x] [Add Jwt Autentication](https://codezen.io/laravel-7-rest-api-using-jwt-authentication/)
-- [x] Add DER Model
+- [x] [Add DER Model](https://github.com/gpreviatti/my-wallet-backend#der)
 - [x] [Add Laravel Schematics](https://github.com/mtolhuys/laravel-schematics)
 - [x] Create Migrations
 - [x] Create Models
