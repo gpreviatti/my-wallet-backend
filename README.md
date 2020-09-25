@@ -8,12 +8,14 @@ System to control finnaces and stock portifolio
 - [x] [Add Jwt Autentication](https://codezen.io/laravel-7-rest-api-using-jwt-authentication/)
 - [x] Add DER
 - [ ] [Add Laravel Schematics](https://github.com/mtolhuys/laravel-schematics)
-- [ ] Add Migrations
-- [ ] Add Models
-- [ ] Add Controllers
+- [x] Create Migrations
+- [x] Create Models
+- [ ] Create Controllers
+  - [x] Add Files
+  - [ ] Implement methods
 - [ ] Add Postman documentation
   - [x] JWTAuthController
-- [ ] Deploy at heroku
+- [ ] Deploy at AWS EC2
 
 ## DER
 
