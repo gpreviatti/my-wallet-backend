@@ -12,7 +12,11 @@ System to control finnaces and stock portifolio
 - [x] Create Models
 - [ ] Create Controllers
   - [x] Add Files
-  - [ ] Implement methods
+  - [ ] Implement functions
+    - [ ] UserController
+    - [ ] WalletController
+    - [ ] EntraceController
+    - [ ] CategoryController
 - [ ] Add Postman documentation
   - [x] JWTAuthController
   - [ ] UserController
