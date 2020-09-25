@@ -6,13 +6,15 @@ System to control finnaces and stock portifolio
 
 - [x] Create laravel project
 - [x] [Add Jwt Autentication](https://codezen.io/laravel-7-rest-api-using-jwt-authentication/)
-- [x] Add DER
+- [x] Add DER Model
 - [ ] [Add Laravel Schematics](https://github.com/mtolhuys/laravel-schematics)
 - [x] Create Migrations
 - [x] Create Models
+- [x] Create Relationship Functions
 - [ ] Create Controllers
   - [x] Add Files
-  - [ ] Implement functions
+  - [ ] Implement methods
+    - [x] JWTAuthController
     - [ ] UserController
     - [ ] WalletController
     - [ ] EntraceController
@@ -23,7 +25,8 @@ System to control finnaces and stock portifolio
   - [ ] WalletController
   - [ ] EntraceController
   - [ ] CategoryController
-- [ ] Deploy at AWS EC2
+- [ ] [Add Laravel LogViewer](https://aristides.dev/instalando-logviewer-no-laravel-56/)
+- [ ] [Deploy heroku](https://devcenter.heroku.com/articles/getting-started-with-laravel)
 
 ## DER
 
