@@ -10,18 +10,18 @@ class WalletController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        dd(auth()->user()->id);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Wallet  $wallet
+     * @param  \App\Models\Wallet $wallet
      * @return \Illuminate\Http\Response
      */
     public function show(Wallet $wallet)
@@ -32,8 +32,8 @@ class WalletController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Wallet  $wallet
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Wallet $wallet
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Wallet $wallet)
@@ -44,7 +44,7 @@ class WalletController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Wallet  $wallet
+     * @param  \App\Models\Wallet $wallet
      * @return \Illuminate\Http\Response
      */
     public function destroy(Wallet $wallet)

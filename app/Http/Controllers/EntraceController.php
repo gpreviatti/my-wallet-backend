@@ -10,7 +10,7 @@ class EntraceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -21,7 +21,7 @@ class EntraceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Entrace  $entrace
+     * @param  \App\Models\Entrace $entrace
      * @return \Illuminate\Http\Response
      */
     public function show(Entrace $entrace)
@@ -32,8 +32,8 @@ class EntraceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Entrace  $entrace
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Entrace $entrace
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Entrace $entrace)
@@ -44,7 +44,7 @@ class EntraceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Entrace  $entrace
+     * @param  \App\Models\Entrace $entrace
      * @return \Illuminate\Http\Response
      */
     public function destroy(Entrace $entrace)

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Validator;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -32,6 +30,13 @@ class JWTAuthController extends Controller
             'email' => 'required|email|unique:users|max:50',
             'password' => 'required|confirmed|string|min:6',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
 
         $user = User::create(array_merge(
             $validator->validated(),
