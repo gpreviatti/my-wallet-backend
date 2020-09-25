@@ -8,16 +8,6 @@ use Illuminate\Http\Request;
 class EntraceController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -31,7 +21,7 @@ class EntraceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Entrace  $entrace
+     * @param  \App\Models\Entrace  $entrace
      * @return \Illuminate\Http\Response
      */
     public function show(Entrace $entrace)
@@ -43,7 +33,7 @@ class EntraceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entrace  $entrace
+     * @param  \App\Models\Entrace  $entrace
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Entrace $entrace)
@@ -54,7 +44,7 @@ class EntraceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Entrace  $entrace
+     * @param  \App\Models\Entrace  $entrace
      * @return \Illuminate\Http\Response
      */
     public function destroy(Entrace $entrace)
