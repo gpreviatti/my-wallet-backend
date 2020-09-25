@@ -30,7 +30,7 @@ class CreateEntracesTable extends Migration
             $table->bigInteger('category_id')->nullable();
             $table->string('description', 255)->nullable();
             $table->string('ticker', 15)->nullable();
-            $table->string('tyoe', 20)->nullable();
+            $table->string('type', 20)->nullable();
             $table->string('observation', 255)->nullable();
             $table->decimal('value')->nullable();
             $table->timestamps();

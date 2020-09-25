@@ -17,8 +17,10 @@ class Entrace extends Model
         'category_id',
         'description',
         'ticker',
-        'tyoe',
+        'type',
         'observation',
         'value',
+        'created_at',
+        'updated_at',
     ];
 }

@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function destroy()
     {
-        if (User::find(auth()->user()->id)->destroy()) {
+        if (User::destroy(auth()->user()->id)) {
             return response()->json(['message' => 'User deleted with success! :(']);
         };
         return response()->json(['message' => 'Fail to remove User :)']);
