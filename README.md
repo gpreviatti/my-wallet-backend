@@ -15,6 +15,10 @@ System to control finnaces and stock portifolio
   - [ ] Implement methods
 - [ ] Add Postman documentation
   - [x] JWTAuthController
+  - [ ] UserController
+  - [ ] WalletController
+  - [ ] EntraceController
+  - [ ] CategoryController
 - [ ] Deploy at AWS EC2
 
 ## DER
