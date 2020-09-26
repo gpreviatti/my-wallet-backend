@@ -15,13 +15,13 @@ System to control finnaces and stock portifolio
   - [x] Add Files
   - [ ] Implement methods
     - [x] JWTAuthController
-    - [ ] UserController
+    - [x] UserController
     - [ ] WalletController
     - [ ] EntraceController
     - [x] CategoryController
 - [ ] Add Postman documentation
   - [x] JWTAuthController
-  - [ ] UserController
+  - [x] UserController
   - [ ] WalletController
   - [ ] EntraceController
   - [x] CategoryController

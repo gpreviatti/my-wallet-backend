@@ -13,9 +13,29 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, User $user)
     {
-        auth()->user()->id;
+        $validator = validator()->make($request->all(), [
+            'name' => 'required|between:2,100',
+            'email' => 'email|unique:users|max:50',
+            'password' => 'confirmed|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+
+        try {
+            if (auth()->user()->id == $user->id) {
+                $user->update($request->all());
+                return response()->json(['message' => 'User updated with success']);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Fail to update user'], 400);
+        }
     }
 
     /**
@@ -23,11 +43,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(User $user)
     {
-        if (User::destroy(auth()->user()->id)) {
+        if ($user->id == auth()->user()->id) {
+            $user->destroy($user->id);
             return response()->json(['message' => 'User deleted with success! :(']);
-        };
+        }
         return response()->json(['message' => 'Fail to remove User :)']);
     }
 }
