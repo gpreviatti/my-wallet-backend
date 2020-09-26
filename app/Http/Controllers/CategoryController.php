@@ -8,6 +8,19 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
+     * List all categories available and custom for logged User
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $myCategories = Category::where('user_id', null)
+        ->orWhere('user_id', auth()->user()->id)
+        ->get();
+        return response()->json($myCategories);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -47,29 +60,28 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id = null)
+    public function show(Category $category)
     {
-        $myCategories = Category::where('user_id', null)
-        ->orWhere('user_id', auth()->user()->id)
-        ->get();
-        return response()->json(['categories' => $myCategories]);
+        return response()->json($category);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Category $category)
     {
         try {
-            $validator = validator()->make($request->all(), [
-                'name' => 'required|max:100',
-                'id' => 'required',
-            ]);
+            $validator = validator()->make(
+                $request->all(),
+                ['name' => 'required|max:100']
+            );
 
             if ($validator->fails()) {
                 return response()->json([
@@ -78,12 +90,7 @@ class CategoryController extends Controller
                 ], 400);
             }
 
-            $category = Category::where([
-                'id' => $request->id,
-                'user_id' => auth()->user()->id
-            ])->first();
-
-            if (isset($category)) {
+            if (isset($category) && $category->user_id == auth()->user()->id) {
                 if ($category->update(['name' => $request->name])) {
                     return response()->json([
                         'message' => 'Category updated with success'
@@ -108,6 +115,17 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        try {
+            if ($category->user_id == auth()->user()->id) {
+                if ($category->destroy($category->id)) {
+                    return response()->json(['message' => 'Category deleted with success']);
+                };
+            }
+            return response()->json([
+                'message' => "Error to delete Category $category->name"
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => "Erro to update Category"]);
+        }
     }
 }
