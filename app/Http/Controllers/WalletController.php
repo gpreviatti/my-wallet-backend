@@ -8,6 +8,18 @@ use Illuminate\Http\Request;
 class WalletController extends Controller
 {
     /**
+     * List all categories available and custom for logged User
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $wallets = Wallet::where('user_id', auth()->user()->id)
+        ->get();
+        return response()->json($wallets);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request

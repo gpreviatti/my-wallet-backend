@@ -13,8 +13,9 @@ class Wallet extends Model
      */
     protected $fillable = [
         'id',
+        'wallets_types_id',
         'name',
-        'type',
+        'description',
         'current_value',
         'due_date',
         'close_date',
@@ -34,5 +35,13 @@ class Wallet extends Model
     public function entraces()
     {
         return $this->hasMany(\App\Models\Entrace::class, 'wallet_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function type()
+    {
+        return $this->belongsTo(\App\Models\WalletType::class, 'id');
     }
 }

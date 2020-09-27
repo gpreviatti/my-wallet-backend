@@ -30,6 +30,17 @@ class CreateBaseCategoriesSeeder extends Seeder
             ['name' => 'Travel'],
             ['name' => 'Work'],
             ['name' => 'Gifts'],
+
+            ['name' => 'Industrials'],
+            ['name' => 'Financials'],
+            ['name' => 'Energy'],
+            ['name' => 'Consumer discretionary'],
+            ['name' => 'Information technology'],
+            ['name' => 'Communication services'],
+            ['name' => 'Real estate'],
+            ['name' => 'Health care'],
+            ['name' => 'Consumer staples'],
+            ['name' => 'Utilities'],
         ];
         foreach ($categories as $category) {
             Category::firstOrCreate($category);

@@ -8,14 +8,14 @@
  * @package Laravel-schematics
  * @author  Maarten Tolhuijs <mtolhuys@protonmail.com>
  * @url     https://github.com/mtolhuys/laravel-schematics
- * @tag     laravel-schematics-wallets-model
+ * @tag     laravel-schematics-wallet_types-model
  */
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWalletsTable extends Migration
+class CreateWalletTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -24,14 +24,9 @@ class CreateWalletsTable extends Migration
      */
     public function up()
     {
-        Schema::create('wallets', static function (Blueprint $table) {
+        Schema::create('wallet_types', static function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('wallets_types_id');
-            $table->string('name', 50);
-            $table->string('description', 255);
-            $table->decimal('current_value');
-            $table->timestamp('due_date');
-            $table->string('close_date');
+            $table->string('name', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -43,6 +38,6 @@ class CreateWalletsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wallets');
+        Schema::dropIfExists('wallet_types');
     }
 }
