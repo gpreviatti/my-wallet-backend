@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     /**
-     * List all categories available and custom for logged User
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -41,6 +42,7 @@ class CategoryController extends Controller
 
         $newCategory = Category::firstOrCreate([
             'name' => $request->name,
+            'uuid' => Str::uuid(),
             'user_id' => auth()->user()->id
         ]);
 

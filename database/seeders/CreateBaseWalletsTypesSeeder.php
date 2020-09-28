@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\WalletType;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
-class CreateBaseCategoriesSeeder extends Seeder
+class CreateBaseWalletsTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -22,7 +23,10 @@ class CreateBaseCategoriesSeeder extends Seeder
             ['name' => 'Stocks'],
         ];
         foreach ($walletsTypes as $walletType) {
-            WalletType::firstOrCreate($walletType);
+            WalletType::firstOrCreate([
+                'uuid' => Str::uuid(),
+                'name' => $walletType['name']
+            ]);
         }
     }
 }

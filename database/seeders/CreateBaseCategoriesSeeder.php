@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class CreateBaseCategoriesSeeder extends Seeder
@@ -43,7 +44,10 @@ class CreateBaseCategoriesSeeder extends Seeder
             ['name' => 'Utilities'],
         ];
         foreach ($categories as $category) {
-            Category::firstOrCreate($category);
+            Category::firstOrCreate([
+                'uuid' => Str::uuid(),
+                'name' => $category['name']
+            ]);
         }
     }
 }

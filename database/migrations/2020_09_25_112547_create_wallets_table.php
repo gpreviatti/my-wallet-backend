@@ -25,13 +25,14 @@ class CreateWalletsTable extends Migration
     public function up()
     {
         Schema::create('wallets', static function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->unique();
+            $table->string('uuid')->unique();
             $table->integer('wallets_types_id');
             $table->string('name', 50);
-            $table->string('description', 255);
-            $table->decimal('current_value');
-            $table->timestamp('due_date');
-            $table->string('close_date');
+            $table->string('description', 255)->nullable();
+            $table->decimal('current_value')->nullable();
+            $table->integer('due_date')->nullable();
+            $table->integer('close_date')->nullable();
             $table->timestamps();
         });
     }

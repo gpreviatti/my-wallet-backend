@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // User::factory(10)->create();
+        (new CreateAdminUserSeeder)->run();
+        (new CreateBaseCategoriesSeeder)->run();
+        (new CreateBaseWalletsTypesSeeder)->run();
+        (new CreateAdminWalletsSeeder)->run();
     }
 }

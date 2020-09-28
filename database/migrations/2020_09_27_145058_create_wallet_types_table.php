@@ -25,8 +25,9 @@ class CreateWalletTypesTable extends Migration
     public function up()
     {
         Schema::create('wallet_types', static function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name', 255)->nullable();
+            $table->bigIncrements('id')->unique();
+            $table->string('uuid')->unique();
+            $table->string('name', 255);
             $table->timestamps();
         });
     }

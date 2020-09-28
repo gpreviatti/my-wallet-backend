@@ -17,6 +17,7 @@ Route::group(['middleware' => 'api'], function () {
         'categories' => App\Http\Controllers\CategoryController::class,
         'entraces' => App\Http\Controllers\EntraceController::class,
         'users' => App\Http\Controllers\UserController::class,
-        'wallets' => App\Http\Controllers\WalletController::class
+        'wallets' => App\Http\Controllers\WalletController::class,
+        'wallets-types' => App\Http\Controllers\WalletTypeController::class
     ]);
 });

@@ -25,7 +25,8 @@ class CreateEntracesTable extends Migration
     public function up()
     {
         Schema::create('entraces', static function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->unique();
+            $table->string('uuid')->unique();
             $table->bigInteger('wallet_id')->nullable();
             $table->bigInteger('category_id')->nullable();
             $table->string('description', 255)->nullable();

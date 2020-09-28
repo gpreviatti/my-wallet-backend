@@ -25,6 +25,8 @@ class CreateUsersHasWalletsTable extends Migration
     public function up()
     {
         Schema::create('users_has_wallets', static function (Blueprint $table) {
+            $table->bigIncrements('id')->unique();
+            $table->string('uuid')->unique();
             $table->bigInteger('user_id')->nullable();
             $table->bigInteger('wallet_id')->nullable();
             $table->timestamps();
