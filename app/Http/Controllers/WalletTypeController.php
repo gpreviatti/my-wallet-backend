@@ -14,7 +14,7 @@ class WalletTypeController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(WalletType::all());
     }
 
     /**
@@ -25,7 +25,9 @@ class WalletTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (auth()->user()->id == 1) {
+            # code...
+        }
     }
 
     /**
