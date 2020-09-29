@@ -29,10 +29,17 @@ class CreateEntracesTable extends Migration
             $table->string('uuid')->unique();
 
             $table->bigInteger('wallet_id')->nullable();
-            $table->foreign('wallet_id')->references('id')->on('wallets');
+            $table
+            ->foreign('wallet_id')
+            ->references('id')
+            ->on('wallets')
+            ->onDelete('cascade');
             
             $table->bigInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')
+            ->references('id')
+            ->on('categories')
+            ->onDelete('cascade');
             
             $table->string('description', 255)->nullable();
             $table->string('ticker', 15)->nullable();

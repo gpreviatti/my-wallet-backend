@@ -43,6 +43,6 @@ class Wallet extends Model
      */
     public function type()
     {
-        return $this->belongsToMany(\App\Models\WalletType::class, 'id');
+        return $this->hasOne(\App\Models\WalletType::class, 'id', 'wallets_types_id');
     }
 }

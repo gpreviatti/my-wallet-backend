@@ -22,11 +22,14 @@ class CreateBaseWalletsTypesSeeder extends Seeder
             ['name' => 'Investiments'],
             ['name' => 'Stocks'],
         ];
+
         foreach ($walletsTypes as $walletType) {
-            WalletType::firstOrCreate([
-                'uuid' => Str::uuid(),
-                'name' => $walletType['name']
-            ]);
+            if (!WalletType::where('name', $walletType['name'])->first()) {
+                WalletType::firstOrCreate([
+                    'uuid' => Str::uuid(),
+                    'name' => $walletType['name']
+                ]);
+            }
         }
     }
 }

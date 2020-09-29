@@ -33,7 +33,9 @@ class CreateDefaultUsersSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            User::firstOrCreate($user);
+            if (!User::find($user['id'])) {
+                User::firstOrCreate($user);
+            }
         }
     }
 }

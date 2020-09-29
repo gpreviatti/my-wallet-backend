@@ -41,11 +41,13 @@ class CreateAdminWalletsSeeder extends Seeder
             ],
         ];
         foreach ($wallets as $wallet) {
-            $newWallet = Wallet::firstOrCreate($wallet);
-            UsersHaveWallets::firstOrCreate([
-                'user_id' => 1,
-                'wallet_id' => $newWallet->id
-            ]);
+            if (!Wallet::where('name', $wallet['name'])->first()) {
+                $newWallet = Wallet::firstOrCreate($wallet);
+                UsersHaveWallets::firstOrCreate([
+                    'user_id' => 1,
+                    'wallet_id' => $newWallet->id
+                ]);
+            }
         }
     }
 }

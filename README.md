@@ -16,13 +16,13 @@ System to control finnaces and stock portifolio
   - [ ] Implement methods
     - [x] JWTAuthController
     - [x] UserController
-    - [ ] WalletController
+    - [x] WalletController
     - [ ] EntraceController
     - [x] CategoryController
 - [ ] Add Postman documentation
   - [x] JWTAuthController
   - [x] UserController
-  - [ ] WalletController
+  - [x] WalletController
   - [ ] EntraceController
   - [x] CategoryController
 - [ ] [Add Laravel LogViewer](https://aristides.dev/instalando-logviewer-no-laravel-56/)

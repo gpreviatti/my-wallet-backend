@@ -44,10 +44,12 @@ class CreateBaseCategoriesSeeder extends Seeder
             ['name' => 'Utilities'],
         ];
         foreach ($categories as $category) {
-            Category::firstOrCreate([
-                'uuid' => Str::uuid(),
-                'name' => $category['name']
-            ]);
+            if (!Category::where('name', $category['name'])->first()) {
+                Category::firstOrCreate([
+                    'uuid' => Str::uuid(),
+                    'name' => $category['name']
+                ]);
+            }
         }
     }
 }
