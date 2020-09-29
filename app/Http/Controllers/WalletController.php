@@ -45,7 +45,8 @@ class WalletController extends Controller
         }
 
         $wallet = Wallet::create(array_merge(
-            $request->all(), ['uuid' => Str::uuid(),]
+            $request->all(),
+            ['uuid' => Str::uuid()]
         ));
 
         if ($wallet) {
