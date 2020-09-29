@@ -24,11 +24,12 @@ class CreateUsersHasWalletsTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_has_wallets', static function (Blueprint $table) {
+        Schema::create('users_have_wallets', static function (Blueprint $table) {
             $table->bigIncrements('id')->unique();
-            $table->string('uuid')->unique();
-            $table->bigInteger('user_id')->nullable();
-            $table->bigInteger('wallet_id')->nullable();
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('wallet_id')->unsigned();
+            $table->foreign('wallet_id')->references('id')->on('wallets');
             $table->timestamps();
         });
     }

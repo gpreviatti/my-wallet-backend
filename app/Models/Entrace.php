@@ -14,6 +14,7 @@ class Entrace extends Model
     protected $fillable = [
         'id',
         'wallet_id',
+        'uuid',
         'category_id',
         'description',
         'ticker',

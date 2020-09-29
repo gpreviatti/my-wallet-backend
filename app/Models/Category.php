@@ -15,6 +15,7 @@ class Category extends Model
         'id',
         'user_id',
         'category_id',
+        'uuid',
         'name',
         'created_at',
         'updated_at',

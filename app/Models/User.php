@@ -17,7 +17,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'uuid'
     ];
 
     /**
@@ -26,7 +26,11 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
+        'created_at',
+        'updated_at',
+        'email_verified_at',
     ];
 
     /**
@@ -64,7 +68,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function categories()
     {
-        return $this->hasMany(\App\Models\Category::class, 'user_id', 'id');
+        return $this->hasMany(\App\Models\Category::class);
     }
 
     /**
@@ -72,6 +76,6 @@ class User extends Authenticatable implements JWTSubject
      */
     public function wallets()
     {
-        return $this->hasMany(\App\Models\UsersHasWallets::class, 'user_id', 'id');
+        return $this->belongsToMany(\App\Models\Wallet::class, 'users_have_wallets');
     }
 }

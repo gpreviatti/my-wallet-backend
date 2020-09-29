@@ -28,6 +28,7 @@ class CreateWalletsTable extends Migration
             $table->bigIncrements('id')->unique();
             $table->string('uuid')->unique();
             $table->integer('wallets_types_id');
+            $table->foreign('wallets_types_id')->references('id')->on('wallet_types');
             $table->string('name', 50);
             $table->string('description', 255)->nullable();
             $table->decimal('current_value')->nullable();

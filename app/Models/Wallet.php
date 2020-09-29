@@ -15,6 +15,7 @@ class Wallet extends Model
         'id',
         'wallets_types_id',
         'name',
+        'uuid',
         'description',
         'current_value',
         'due_date',
@@ -26,7 +27,7 @@ class Wallet extends Model
      */
     public function users()
     {
-        return $this->hasMany(\App\Models\UsersHasWallets::class, 'wallet_id', 'id');
+        return $this->belongsToMany(\App\Models\User::class, 'users_have_wallets');
     }
 
     /**
@@ -42,6 +43,6 @@ class Wallet extends Model
      */
     public function type()
     {
-        return $this->belongsTo(\App\Models\WalletType::class, 'id');
+        return $this->belongsToMany(\App\Models\WalletType::class, 'id');
     }
 }

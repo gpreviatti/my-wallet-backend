@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\UsersHasWallets;
+use App\Models\UsersHaveWallets;
 use App\Models\Wallet;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -42,9 +42,8 @@ class CreateAdminWalletsSeeder extends Seeder
         ];
         foreach ($wallets as $wallet) {
             $newWallet = Wallet::firstOrCreate($wallet);
-            UsersHasWallets::firstOrCreate([
+            UsersHaveWallets::firstOrCreate([
                 'user_id' => 1,
-                'uuid' => Str::uuid(),
                 'wallet_id' => $newWallet->id
             ]);
         }

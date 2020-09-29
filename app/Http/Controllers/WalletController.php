@@ -12,12 +12,12 @@ class WalletController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $wallets = Wallet::where('user_id', auth()->user()->id)
-        ->get();
-        return response()->json($wallets);
-    }
+    //TODO:
+    // public function index()
+    // {
+    //     $wallets = Wallet::with('users')->get();
+    //     return response()->json($wallets);
+    // }
 
     /**
      * Store a newly created resource in storage.

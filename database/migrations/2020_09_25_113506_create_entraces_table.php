@@ -27,8 +27,13 @@ class CreateEntracesTable extends Migration
         Schema::create('entraces', static function (Blueprint $table) {
             $table->bigIncrements('id')->unique();
             $table->string('uuid')->unique();
+
             $table->bigInteger('wallet_id')->nullable();
+            $table->foreign('wallet_id')->references('id')->on('wallets');
+            
             $table->bigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories');
+            
             $table->string('description', 255)->nullable();
             $table->string('ticker', 15)->nullable();
             $table->string('type', 20)->nullable();

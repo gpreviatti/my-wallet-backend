@@ -13,6 +13,7 @@ class WalletType extends Model
      */
     protected $fillable = [
         'id',
+        'uuid',
         'name',
     ];
 }

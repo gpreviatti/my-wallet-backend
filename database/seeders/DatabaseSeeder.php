@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        (new CreateAdminUserSeeder)->run();
+        (new CreateDefaultUsersSeeder)->run();
         (new CreateBaseCategoriesSeeder)->run();
         (new CreateBaseWalletsTypesSeeder)->run();
         (new CreateAdminWalletsSeeder)->run();

@@ -83,7 +83,11 @@ class JWTAuthController extends Controller
      */
     public function profile()
     {
-        return response()->json(auth()->user());
+        return response()->json(
+            User::find(auth()->user()->id)
+            ->with('wallets', 'categories')
+            ->get()
+        );
     }
 
     /**

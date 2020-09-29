@@ -16,9 +16,11 @@ class AdminAllow
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->id == 1 || auth()->user()->email == 'admin@admin.com') {
-            return $next($request);
+        if (auth()->user()) {
+            if (auth()->user()->id == 1 || auth()->user()->email == 'admin@admin.com') {
+                return $next($request);
+            }
         }
-        return response()->json(['message' => 'Not allowed']);
+        return response()->json(['message' => 'Not allowed'], 400);
     }
 }
