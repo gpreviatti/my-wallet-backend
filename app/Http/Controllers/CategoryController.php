@@ -40,23 +40,25 @@ class CategoryController extends Controller
             ], 400);
         }
 
-        $newCategory = Category::firstOrCreate([
+        $newCategory = Category::where([
             'name' => $request->name,
-            'uuid' => Str::uuid(),
             'user_id' => auth()->user()->id
-        ]);
+        ])->first();
 
-        if ($newCategory) {
+        if (!$newCategory) {
             $newCategory = Category::firstOrCreate([
                 'name' => $request->name,
+                'uuid' => Str::uuid(),
                 'user_id' => auth()->user()->id
             ]);
+
+            return response()->json([
+                'message' => 'Successfully registered',
+                'new_category' => $newCategory
+            ], 201);
         }
 
-        return response()->json([
-            'message' => 'Successfully registered',
-            'new_category' => $newCategory
-        ], 201);
+        return response()->json('Error to create category', 400);
     }
 
     /**
@@ -101,11 +103,11 @@ class CategoryController extends Controller
             }
             return response()->json([
                 'message' => "Error to update Category $category->name"
-            ]);
+            ], 400);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => "Erro to update Category"
-            ]);
+            ], 400);
         }
     }
 
@@ -125,9 +127,9 @@ class CategoryController extends Controller
             }
             return response()->json([
                 'message' => "Error to delete Category $category->name"
-            ]);
+            ], 400);
         } catch (\Throwable $th) {
-            return response()->json(['message' => "Erro to update Category"]);
+            return response()->json(['message' => "Erro to update Category"], 400);
         }
     }
 }

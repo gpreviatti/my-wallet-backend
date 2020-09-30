@@ -17,13 +17,15 @@ System to control finnaces and stock portifolio
     - [x] JWTAuthController
     - [x] UserController
     - [x] WalletController
-    - [ ] EntraceController
+    - [ ] WalletTypeController
+    - [x] EntraceController
     - [x] CategoryController
 - [ ] Add Postman documentation
   - [x] JWTAuthController
   - [x] UserController
   - [x] WalletController
-  - [ ] EntraceController
+  - [ ] WalletTypeController
+  - [x] EntraceController
   - [x] CategoryController
 - [ ] [Add Laravel LogViewer](https://aristides.dev/instalando-logviewer-no-laravel-56/)
 - [ ] [Deploy heroku](https://devcenter.heroku.com/articles/getting-started-with-laravel)

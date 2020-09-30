@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\JWTAuthController;
+use App\Http\Controllers\EntraceController;
 
 Route::group(['middleware' => 'api'], function () {
     Route::group(['prefix' => 'auth'], function () {
@@ -19,9 +20,16 @@ Route::group(['middleware' => 'api'], function () {
         ]);
     });
 
+    Route::group(['prefix' => 'entraces'], function () {
+        Route::get('/show/{uuid}', [EntraceController::class, 'show']);
+        Route::get('/{walletUuid}/{categoryUUid?}', [EntraceController::class, 'index']);
+        Route::post('/', [EntraceController::class, 'store']);
+        Route::put('/update/{uuid}', [EntraceController::class, 'update']);
+        Route::delete('/destroy/{uuid}', [EntraceController::class, 'destroy']);
+    });
+
     Route::apiResources([
         'categories' => App\Http\Controllers\CategoryController::class,
-        'entraces' => App\Http\Controllers\EntraceController::class,
         'users' => App\Http\Controllers\UserController::class,
         'wallets' => App\Http\Controllers\WalletController::class,
     ]);

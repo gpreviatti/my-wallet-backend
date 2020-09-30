@@ -41,11 +41,11 @@ class CreateEntracesTable extends Migration
             ->on('categories')
             ->onDelete('cascade');
             
-            $table->string('description', 255)->nullable();
+            $table->string('description', 255);
             $table->string('ticker', 15)->nullable();
             $table->string('type', 20)->nullable();
             $table->string('observation', 255)->nullable();
-            $table->decimal('value')->nullable();
+            $table->decimal('value');
             $table->timestamps();
         });
     }

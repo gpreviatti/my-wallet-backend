@@ -29,7 +29,7 @@ class WalletController extends Controller
     public function store(Request $request)
     {
         $validator = validator()->make($request->all(), [
-            'wallets_types_id' => 'required|integer',
+            'wallets_types_id' => 'required|integer|exists:wallet_types,id',
             'name' => 'required|max:50',
             'description' => 'max:255',
             'current_value' => 'required|numeric',
@@ -92,7 +92,7 @@ class WalletController extends Controller
     public function update(Request $request, Wallet $wallet)
     {
         $validator = validator()->make($request->all(), [
-            'wallets_types_id' => 'integer',
+            'wallets_types_id' => 'required|integer|exists:wallet_types,id',
             'name' => 'max:50',
             'description' => 'max:255',
             'current_value' => 'numeric',
