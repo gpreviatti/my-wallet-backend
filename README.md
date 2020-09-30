@@ -2,11 +2,12 @@
 
 System to control finnaces and stock portifolio
 
+## [MER](https://drawsql.app/giovanni/diagrams/my-wallet)
+
 ## Todo
 
 - [x] Create laravel project
 - [x] [Add Jwt Autentication](https://codezen.io/laravel-7-rest-api-using-jwt-authentication/)
-- [x] [Add MER Model](https://github.com/gpreviatti/my-wallet-backend#mer)
 - [x] [Add Laravel Schematics](https://github.com/mtolhuys/laravel-schematics)
 - [x] Create Migrations
 - [x] Create Models
@@ -29,7 +30,3 @@ System to control finnaces and stock portifolio
   - [x] CategoryController
 - [ ] [Add Laravel LogViewer](https://aristides.dev/instalando-logviewer-no-laravel-56/)
 - [ ] [Deploy heroku](https://devcenter.heroku.com/articles/getting-started-with-laravel)
-
-## DER
-
-![der](./public/my-wallet-mer.png)
