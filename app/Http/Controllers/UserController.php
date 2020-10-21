@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
     /**
-     * Update the specified resource in storage.
+     * Update your own user
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param string $uuid
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request) : JsonResponse
     {
         $validator = validator()->make($request->all(), [
             'name' => 'required|between:2,100',
@@ -29,7 +31,8 @@ class UserController extends Controller
         }
 
         try {
-            if (auth()->user()->id == $user->id) {
+            $user = User::find(auth()->user()->id)->first();
+            if ($user) {
                 $user->update($request->all());
                 return response()->json(['message' => 'User updated with success']);
             }
@@ -39,16 +42,15 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete user own user
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(User $user)
+    public function delete() : JsonResponse
     {
-        if ($user->id == auth()->user()->id) {
-            $user->destroy($user->id);
-            return response()->json(['message' => 'User deleted with success! :(']);
+        if (User::find(auth()->user()->id)->delete()) {
+            return response()->json(['message' => 'Your user has been deleted successfully']);
         }
-        return response()->json(['message' => 'Fail to remove User :)']);
+        return response()->json(['message' => 'Fail to remove your user']);
     }
 }

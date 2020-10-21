@@ -15,9 +15,11 @@ class EntraceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param string $walletUuid
+     * @param string $categoryUUid
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index($walletUuid, $categoryUUid = null)
+    public function index(string $walletUuid, string $categoryUUid = null) : JsonResponse
     {
         $wallet = Wallet::where('uuid', $walletUuid)->first();
         $conditions['wallet_id'] = $wallet->id;
@@ -32,9 +34,9 @@ class EntraceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request) : JsonResponse
     {
         $validator = validator()->make($request->all(), [
             'wallet_id' => 'required|string|exists:wallets,id',
@@ -66,7 +68,6 @@ class EntraceController extends Controller
                 'ticker' => $request->ticker ?? '',
                 'type' => $request->type ?? ''
             ]);
-    
             if ($newEntry) {
                 DB::commit();
                 return response()->json($newEntry);
@@ -79,10 +80,10 @@ class EntraceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Entrace $entrace
-     * @return \Illuminate\Http\Response
+     * @param string $uuid
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($uuid)
+    public function show($uuid) : JsonResponse
     {
         return response()->json(Entrace::where('uuid', $uuid)->first());
     }
@@ -90,11 +91,11 @@ class EntraceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Entrace $entrace
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param string $entraceUuid
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $entraceUuid)
+    public function update(Request $request, string $entraceUuid) : JsonResponse
     {
         $validator = validator()->make($request->all(), [
             'wallet_id' => 'required|string|exists:wallets,id',
@@ -113,7 +114,6 @@ class EntraceController extends Controller
             ], 400);
         }
 
-        
         $entrace = Entrace::where('uuid', $entraceUuid)->first();
         if (!$entrace) {
             return response()->json('Entrace not found', 400);
@@ -136,12 +136,12 @@ class EntraceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete the specified resource from storage.
      *
-     * @param  \App\Models\Entrace $entrace
-     * @return \Illuminate\Http\Response
+     * @param string $entraceUuid
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($entraceUuid)
+    public function delete(string $entraceUuid) : JsonResponse
     {
         $entrace = Entrace::where('uuid', $entraceUuid)->first();
         if ($entrace) {

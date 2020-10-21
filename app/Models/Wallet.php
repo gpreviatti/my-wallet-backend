@@ -13,7 +13,7 @@ class Wallet extends Model
      */
     protected $fillable = [
         'id',
-        'wallets_types_id',
+        'wallet_types_id',
         'name',
         'uuid',
         'description',
@@ -43,6 +43,6 @@ class Wallet extends Model
      */
     public function type()
     {
-        return $this->hasOne(\App\Models\WalletType::class, 'id', 'wallets_types_id');
+        return $this->hasOne(\App\Models\WalletType::class, 'id', 'wallet_types_id');
     }
 }

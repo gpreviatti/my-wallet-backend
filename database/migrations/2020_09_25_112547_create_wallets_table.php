@@ -27,13 +27,13 @@ class CreateWalletsTable extends Migration
         Schema::create('wallets', static function (Blueprint $table) {
             $table->bigIncrements('id')->unique();
             $table->string('uuid')->unique();
-            
-            $table->integer('wallets_types_id');
-            $table->foreign('wallets_types_id')
+
+            $table->integer('wallet_types_id');
+            $table->foreign('wallet_types_id')
             ->references('id')
             ->on('wallet_types')
             ->onDelete('cascade');
-            
+
             $table->string('name', 50);
             $table->string('description', 255)->nullable();
             $table->decimal('current_value')->nullable();

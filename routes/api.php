@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\JWTAuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EntraceController;
+use App\Http\Controllers\JWTAuthController;
+use App\Http\Controllers\WalletController;
+use App\Http\Controllers\UserController;
 
 Route::group(['middleware' => 'api'], function () {
     Route::group(['prefix' => 'auth'], function () {
@@ -20,17 +23,31 @@ Route::group(['middleware' => 'api'], function () {
         ]);
     });
 
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('/show/{uuid}', [CategoryController::class, 'show']);
+        Route::get('/{walletUuid}/{categoryUUid?}', [CategoryController::class, 'index']);
+        Route::post('/', [CategoryController::class, 'store']);
+        Route::put('/update/{uuid}', [CategoryController::class, 'update']);
+        Route::delete('/delete/{uuid}', [CategoryController::class, 'delete']);
+    });
+
     Route::group(['prefix' => 'entraces'], function () {
         Route::get('/show/{uuid}', [EntraceController::class, 'show']);
         Route::get('/{walletUuid}/{categoryUUid?}', [EntraceController::class, 'index']);
         Route::post('/', [EntraceController::class, 'store']);
         Route::put('/update/{uuid}', [EntraceController::class, 'update']);
-        Route::delete('/destroy/{uuid}', [EntraceController::class, 'destroy']);
+        Route::delete('/delete/{uuid}', [EntraceController::class, 'delete']);
     });
 
-    Route::apiResources([
-        'categories' => App\Http\Controllers\CategoryController::class,
-        'users' => App\Http\Controllers\UserController::class,
-        'wallets' => App\Http\Controllers\WalletController::class,
-    ]);
+    Route::group(['prefix' => 'users'], function () {
+        Route::put('/update', [UserController::class, 'update']);
+        Route::delete('/delete', [UserController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'wallets'], function () {
+        Route::get('/show/{uuid}', [WalletController::class, 'show']);
+        Route::post('/', [WalletController::class, 'store']);
+        Route::put('/update/{uuid}', [WalletController::class, 'update']);
+        Route::delete('/delete/{uuid}', [WalletController::class, 'delete']);
+    });
 });

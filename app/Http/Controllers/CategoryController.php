@@ -117,11 +117,11 @@ class CategoryController extends Controller
      * @param  \App\Models\Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function delete(Category $category)
     {
         try {
             if ($category->user_id == auth()->user()->id) {
-                if ($category->destroy($category->id)) {
+                if ($category->delete($category->id)) {
                     return response()->json(['message' => 'Category deleted with success']);
                 };
             }

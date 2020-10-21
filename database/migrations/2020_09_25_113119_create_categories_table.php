@@ -34,7 +34,7 @@ class CreateCategoriesTable extends Migration
             ->references('id')
             ->on('categories')
             ->onDelete('cascade');
-            
+
             $table->string('name', 100);
             $table->timestamps();
         });

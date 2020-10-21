@@ -34,13 +34,13 @@ class CreateEntracesTable extends Migration
             ->references('id')
             ->on('wallets')
             ->onDelete('cascade');
-            
+
             $table->bigInteger('category_id')->nullable();
             $table->foreign('category_id')
             ->references('id')
             ->on('categories')
             ->onDelete('cascade');
-            
+
             $table->string('description', 255);
             $table->string('ticker', 15)->nullable();
             $table->string('type', 20)->nullable();
