@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Entrace;
-use App\Models\Wallet;
+use App\Models\Entities\Category;
+use App\Models\Entities\Entrace;
+use App\Models\Entities\Wallet;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

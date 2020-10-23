@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,7 +27,7 @@ class Wallet extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(\App\Models\User::class, 'users_have_wallets');
+        return $this->belongsToMany(User::class, 'users_have_wallets');
     }
 
     /**
@@ -35,7 +35,7 @@ class Wallet extends Model
      */
     public function entraces()
     {
-        return $this->hasMany(\App\Models\Entrace::class, 'wallet_id', 'id');
+        return $this->hasMany(Entrace::class, 'wallet_id', 'id');
     }
 
     /**
@@ -43,6 +43,6 @@ class Wallet extends Model
      */
     public function type()
     {
-        return $this->hasOne(\App\Models\WalletType::class, 'id', 'wallet_types_id');
+        return $this->hasOne(WalletType::class, 'id', 'wallet_types_id');
     }
 }

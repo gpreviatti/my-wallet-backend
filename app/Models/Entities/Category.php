@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,6 +26,6 @@ class Category extends Model
      */
     public function entraces()
     {
-        return $this->hasMany(\App\Models\Entrace::class, 'categoory_id', 'id');
+        return $this->hasMany(Entrace::class);
     }
 }

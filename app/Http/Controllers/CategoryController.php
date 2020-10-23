@@ -2,23 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Repositories\CategoryRepository;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     /**
+     * repository
+     *
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    public function __construct()
+    {
+        // set repository
+        $this->categoryRepository = new CategoryRepository();
+    }
+    /**
      * Display a listing of the resource.
      *
+     * @param string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(string $uuid = null)
     {
-        $myCategories = Category::where('user_id', null)
-        ->orWhere('user_id', auth()->user()->id)
-        ->get();
-        return response()->json($myCategories);
+        try {
+            if ($uuid) {
+                return response()->json($this->categoryRepository->findByUuid($uuid));
+            }
+            return response()->json($this->categoryRepository->getUserCategories());
+        } catch (\Throwable $th) {
+            logger()->error($th->getMessage());
+            return response()->json($th->getMessage());
+        }
     }
 
     /**
@@ -40,18 +58,13 @@ class CategoryController extends Controller
             ], 400);
         }
 
-        $newCategory = Category::where([
+        $newCategory = $this->categoryRepository->create([
             'name' => $request->name,
+            'uuid' => Str::uuid(),
             'user_id' => auth()->user()->id
-        ])->first();
+        ]);
 
-        if (!$newCategory) {
-            $newCategory = Category::firstOrCreate([
-                'name' => $request->name,
-                'uuid' => Str::uuid(),
-                'user_id' => auth()->user()->id
-            ]);
-
+        if ($newCategory) {
             return response()->json([
                 'message' => 'Successfully registered',
                 'new_category' => $newCategory
@@ -59,17 +72,6 @@ class CategoryController extends Controller
         }
 
         return response()->json('Error to create category', 400);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Category $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        return response()->json($category);
     }
 
     /**
@@ -121,7 +123,7 @@ class CategoryController extends Controller
     {
         try {
             if ($category->user_id == auth()->user()->id) {
-                if ($category->delete($category->id)) {
+                if ($this->categoryRepository->delete($category->id)) {
                     return response()->json(['message' => 'Category deleted with success']);
                 };
             }

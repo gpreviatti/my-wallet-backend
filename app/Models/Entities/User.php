@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Entities;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -68,7 +68,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function categories()
     {
-        return $this->hasMany(\App\Models\Category::class);
+        return $this->hasMany(Category::class);
     }
 
     /**
@@ -76,6 +76,6 @@ class User extends Authenticatable implements JWTSubject
      */
     public function wallets()
     {
-        return $this->belongsToMany(\App\Models\Wallet::class, 'users_have_wallets');
+        return $this->belongsToMany(Wallet::class, 'users_have_wallets');
     }
 }
