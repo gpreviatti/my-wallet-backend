@@ -26,8 +26,8 @@ Route::group(['middleware' => 'api'], function () {
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/{uuid?}', [CategoryController::class, 'index']);
         Route::post('/', [CategoryController::class, 'store']);
-        Route::put('/update/{uuid}', [CategoryController::class, 'update']);
-        Route::delete('/delete/{uuid}', [CategoryController::class, 'delete']);
+        Route::put('/{uuid}', [CategoryController::class, 'update']);
+        Route::delete('/{uuid}', [CategoryController::class, 'delete']);
     });
 
     Route::group(['prefix' => 'entraces'], function () {

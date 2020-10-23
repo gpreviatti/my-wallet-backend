@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models\Repositories;
 
@@ -54,6 +54,19 @@ class Repository implements RepositoryInterface
     public function update(array $data, int $id)
     {
         $record = $this->find($id);
+        return $record->update($data);
+    }
+
+    /**
+     * update record in the database by uuid
+     *
+     * @param array $data
+     * @param string $uuid
+     * @return void
+     */
+    public function updateByUuid(array $data, string $uuid)
+    {
+        $record = $this->findByUuid($uuid);
         return $record->update($data);
     }
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models\Repositories;
 
@@ -26,5 +26,23 @@ class CategoryRepository extends Repository
         ])
         ->orWhere('user_id', null)
         ->get();
+    }
+
+    /**
+     * Update the category releted to logged user
+     *
+     * @param array $data
+     * @param string $uuid
+     * @return void
+     */
+    public function updateCategory(array $data, string $uuid)
+    {
+        $category = $this->findByUuid($uuid);
+        if (isset($category) && $category->user_id == auth()->user()->id) {
+            if ($this->updateByUuid($data, $uuid)) {
+                return ["success" => false, "message" => "Category updated with success"];
+            };
+        }
+        return ["success" => false, "message" => "Error to update category"];
     }
 }
