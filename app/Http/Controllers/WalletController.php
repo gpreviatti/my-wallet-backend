@@ -2,54 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UsersHaveWallets;
-use App\Models\Entities\Wallet;
-use Illuminate\Support\Str;
+use App\Models\Repositories\WalletRepository;
+use App\Models\Repositories\UsersHaveWalletsRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class WalletController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * repository variable
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @var WalletRepository
      */
-    public function store(Request $request) : JsonResponse
+    private $repository;
+
+    /**
+     * Undocumented variable
+     *
+     * @var UsersHaveWalletsRepository
+     */
+    private $usersHaveWalletsRepository;
+
+    public function __construct()
     {
-        $validator = validator()->make($request->all(), [
-            'wallet_types_id' => 'required|integer|exists:wallet_types,id',
-            'name' => 'required|max:50',
-            'description' => 'max:255',
-            'current_value' => 'required|numeric',
-            'due_date' => 'integer',
-            'close_date' => 'integer',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
-        }
-
-        $wallet = Wallet::create(array_merge(
-            $request->all(),
-            ['uuid' => Str::uuid()]
-        ));
-
-        if ($wallet) {
-            $usersHaveWallets = UsersHaveWallets::create([
-                'wallet_id' => $wallet->id,
-                'user_id' => auth()->user()->id
-            ]);
-
-            if ($usersHaveWallets) {
-                return response()->json($wallet);
-            }
-        }
-        return response()->json('Error to create wallet');
+        // set repository
+        $this->repository = new WalletRepository;
+        $this->usersHaveWalletsRepository = new UsersHaveWalletsRepository;
     }
 
     /**
@@ -58,16 +36,40 @@ class WalletController extends Controller
      * @param string $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(string $uuid) : JsonResponse
+    public function index(string $uuid = "") : JsonResponse
     {
-        $userWallet = UsersHaveWallets::where([
-            'user_id' => auth()->user()->id,
-            'uuid' => $uuid
-        ])->first();
-        if ($userWallet) {
-            return response()->json($userWallet->with('type')->first());
+        return response()->json($this->usersHaveWalletsRepository->getUserWallets($uuid));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request) : JsonResponse
+    {
+        try {
+            $validator = validator()->make($request->all(), [
+                'wallet_types_id' => 'required|integer|exists:wallet_types,id',
+                'name' => 'required|max:50',
+                'description' => 'max:255',
+                'current_value' => 'required|numeric',
+                'due_date' => 'integer',
+                'close_date' => 'integer',
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()->all()
+                ], 400);
+            }
+
+            return response()->json($this->repository->create($request->all()));
+        } catch (\Throwable $th) {
+            $this->handleException($th, "store");
         }
-        return response()->json('Wallet not found', 400);
     }
 
     /**
@@ -79,41 +81,41 @@ class WalletController extends Controller
      */
     public function update(Request $request, string $uuid) : JsonResponse
     {
-        $validator = validator()->make($request->all(), [
-            'wallet_types_id' => 'required|integer|exists:wallet_types,id',
-            'name' => 'max:50',
-            'description' => 'max:255',
-            'current_value' => 'numeric',
-            'due_date' => 'integer',
-            'close_date' => 'integer',
-        ]);
+        try {
+            $validator = validator()->make($request->all(), [
+                'wallet_types_id' => 'required|integer|exists:wallet_types,id',
+                'name' => 'max:50',
+                'description' => 'max:255',
+                'current_value' => 'numeric',
+                'due_date' => 'integer',
+                'close_date' => 'integer',
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()->all()
+                ], 400);
+            }
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json($this->repository->updateByUuid($request->all(), $uuid));
+        } catch (\Throwable $th) {
+            $this->handleException($th, "update");
         }
-
-        $wallet = Wallet::where('uuid', $uuid)->first();
-        if ($wallet->update($request->all())) {
-            return response()->json($wallet);
-        }
-        return response()->json('Error to update wallet');
     }
 
     /**
-     * Delete the specified resource from storage.
+     * Delete resource.
      *
      * @param string $uuid
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(string $uuid) : JsonResponse
     {
-        $wallet = Wallet::where('uuid', $uuid)->first();
-        if ($wallet->delete()) {
-            return response()->json('Wallet was successfully deleted');
+        try {
+            return response()->json($this->repository->deleteByUUid($uuid), 200);
+        } catch (\Throwable $th) {
+            $this->handleException($th, "delete");
         }
-        return response()->json('Error to delete wallet');
     }
 }

@@ -9,16 +9,16 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
-     * repository
+     * repository variable
      *
      * @var CategoryRepository
      */
-    private $categoryRepository;
+    private $repository;
 
     public function __construct()
     {
         // set repository
-        $this->categoryRepository = new CategoryRepository();
+        $this->repository = new CategoryRepository;
     }
     /**
      * Display a listing of the resource.
@@ -30,9 +30,9 @@ class CategoryController extends Controller
     {
         try {
             if ($uuid) {
-                return response()->json($this->categoryRepository->findByUuid($uuid));
+                return response()->json($this->repository->findByUuid($uuid));
             }
-            return response()->json($this->categoryRepository->getUserCategories());
+            return response()->json($this->repository->getUserCategories());
         } catch (\Throwable $th) {
             return $this->handleException($th, "index");
         }
@@ -58,7 +58,7 @@ class CategoryController extends Controller
                 ], 400);
             }
 
-            $newCategory = $this->categoryRepository->create([
+            $newCategory = $this->repository->create([
                 'name' => $request->name,
                 'uuid' => Str::uuid(),
                 'user_id' => auth()->user()->id
@@ -98,7 +98,7 @@ class CategoryController extends Controller
                 ], 400);
             }
 
-            $return = $this->categoryRepository->updateCategory(["name" => $request->name], $uuid);
+            $return = $this->repository->updateUserCategory(["name" => $request->name], $uuid);
             return response()->json($return, 400);
         } catch (\Throwable $th) {
             return $this->handleException($th, "update");
@@ -114,15 +114,7 @@ class CategoryController extends Controller
     public function delete(string $uuid)
     {
         try {
-            $category = $this->categoryRepository->findByUuid($uuid);
-            if ($category->user_id == auth()->user()->id) {
-                if ($this->categoryRepository->delete($category->id)) {
-                    return response()->json(['message' => 'Category deleted with success']);
-                };
-            }
-            return response()->json([
-                'message' => "Error to delete Category $category->name"
-            ], 400);
+            return response()->json($this->repository->deleteByUUid($uuid), 200);
         } catch (\Throwable $th) {
             return $this->handleException($th, "delete");
         }

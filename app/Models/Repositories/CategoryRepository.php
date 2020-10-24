@@ -19,7 +19,7 @@ class CategoryRepository extends Repository
      *
      * @return Category
      */
-    public function getUserCategories()
+    public function getUserCategories() : Category
     {
         return $this->model->where([
             'user_id' => auth()->user()->id
@@ -35,14 +35,35 @@ class CategoryRepository extends Repository
      * @param string $uuid
      * @return void
      */
-    public function updateCategory(array $data, string $uuid)
+    public function updateUserCategory(array $data, string $uuid) : array
     {
         $category = $this->findByUuid($uuid);
         if (isset($category) && $category->user_id == auth()->user()->id) {
             if ($this->updateByUuid($data, $uuid)) {
-                return ["success" => false, "message" => "Category updated with success"];
+                return [
+                    "success" => true,
+                    "message" => "Category updated with success",
+                    "data" => $category
+                ];
             };
         }
         return ["success" => false, "message" => "Error to update category"];
+    }
+
+    /**
+     * Delete resource by uuid
+     *
+     * @param string $uuid
+     * @return void
+     */
+    public function deleteByUUid(string $uuid) : array
+    {
+        $category = $this->findByUuid($uuid);
+        if ($category->user_id == auth()->user()->id) {
+            if ($this->repository->delete($category->id)) {
+                return ["success" => true, "message" => "Category deleted with success"];
+            };
+        }
+        return ["success" => false, "message" => "Error to delete category"];
     }
 }
