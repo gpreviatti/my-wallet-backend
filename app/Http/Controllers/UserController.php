@@ -2,12 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entities\User;
+use App\Models\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
+    /**
+     * repository variable
+     *
+     * @var USerRepository
+     */
+    private $repository;
+
+    public function __construct()
+    {
+        // set repository
+        $this->repository = new UserRepository;
+    }
+
     /**
      * Update your own user
      *
@@ -17,27 +30,31 @@ class UserController extends Controller
      */
     public function update(Request $request) : JsonResponse
     {
-        $validator = validator()->make($request->all(), [
-            'name' => 'required|between:2,100',
-            'email' => 'email|unique:users|max:50',
-            'password' => 'confirmed|string|min:6',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
-        }
-
         try {
-            $user = User::find(auth()->user()->id)->first();
-            if ($user) {
-                $user->update($request->all());
-                return response()->json(['message' => 'User updated with success']);
+            $validator = validator()->make($request->all(), [
+                'name' => 'required|between:2,100',
+                'email' => 'email|unique:users|max:50',
+                'password' => 'confirmed|string|min:6',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()->all()
+                ], 400);
             }
+            if ($this->repository->update($request->all(), auth()->user()->id)) {
+                return response()->json([
+                    "success" => true,
+                    "message" => "User updated with success"
+                ]);
+            }
+            return response()->json([
+                "success" => false,
+                "message" => "Fail to update user"
+            ], 400);
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Fail to update user'], 400);
+            $this->handleException($th, "update");
         }
     }
 
@@ -48,9 +65,19 @@ class UserController extends Controller
      */
     public function delete() : JsonResponse
     {
-        if (User::find(auth()->user()->id)->delete()) {
-            return response()->json(['message' => 'Your user has been deleted successfully']);
+        try {
+            if ($this->repository->delete(auth()->user()->id)) {
+                return response()->json([
+                    "success" => true,
+                    "message" => "Your user has been deleted successfully"
+                ]);
+            }
+            return response()->json([
+                "success" => false,
+                "message" => "Fail to remove your user"
+            ]);
+        } catch (\Throwable $th) {
+            $this->handleException($th, "delete");
         }
-        return response()->json(['message' => 'Fail to remove your user']);
     }
 }
