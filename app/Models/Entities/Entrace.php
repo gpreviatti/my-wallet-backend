@@ -12,7 +12,6 @@ class Entrace extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'wallet_id',
         'uuid',
         'category_id',
@@ -24,4 +23,11 @@ class Entrace extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['id'];
 }

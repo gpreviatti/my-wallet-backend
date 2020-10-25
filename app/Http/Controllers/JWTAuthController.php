@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\Entities\User;
+
+use App\Models\Repositories\UserRepository;
 
 class JWTAuthController extends Controller
 {
     /**
-     * Create a new AuthController instance.
+     * repository variable
      *
-     * @return void
+     * @var USerRepository
      */
+    private $repository;
+
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        // set repository
+        $this->repository = new UserRepository;
     }
 
     /**
@@ -39,17 +42,12 @@ class JWTAuthController extends Controller
             ], 400);
         }
 
-        $user = User::create(array_merge(
-            $validator->validated(),
-            [
-                'password' => bcrypt($request->password),
-                'uuid' => Str::uuid(),
-            ]
-        ));
+        $user = $this->repository->createWithUuid($request->all());
 
         return response()->json([
-            'message' => 'Successfully registered',
-            'user' => $user
+            "success" => true,
+            "message" => "Successfully registered",
+            "user" => $user
         ], 201);
     }
 
@@ -83,11 +81,11 @@ class JWTAuthController extends Controller
      */
     public function profile()
     {
-        return response()->json(
-            User::find(auth()->user()->id)
-            ->with('wallets', 'categories')
-            ->get()
-        );
+        try {
+            return response()->json($this->repository->profile());
+        } catch (\Throwable $th) {
+            $this->handleException($th, "profile");
+        }
     }
 
     /**
@@ -97,8 +95,12 @@ class JWTAuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
-        return response()->json(['message' => 'Successfully logged out']);
+        try {
+            auth()->logout();
+            return response()->json(['message' => 'Successfully logged out']);
+        } catch (\Throwable $th) {
+            $this->handleException($th, "logout");
+        }
     }
 
     /**
@@ -108,7 +110,11 @@ class JWTAuthController extends Controller
      */
     public function refresh()
     {
-        return $this->createNewToken(auth()->refresh());
+        try {
+            return $this->createNewToken(auth()->refresh());
+        } catch (\Throwable $th) {
+            $this->handleException($th, "refresh");
+        }
     }
 
     /**
@@ -120,10 +126,14 @@ class JWTAuthController extends Controller
      */
     protected function createNewToken($token)
     {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        try {
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ]);
+        } catch (\Throwable $th) {
+            $this->handleException($th, "createNewToken");
+        }
     }
 }

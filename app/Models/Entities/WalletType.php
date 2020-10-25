@@ -11,9 +11,12 @@ class WalletType extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'id',
-        'uuid',
-        'name',
-    ];
+    protected $fillable = ['uuid', 'name',];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['id', 'created_at', 'updated_at'];
 }

@@ -16,18 +16,10 @@ class WalletController extends Controller
      */
     private $repository;
 
-    /**
-     * Undocumented variable
-     *
-     * @var UsersHaveWalletsRepository
-     */
-    private $usersHaveWalletsRepository;
-
     public function __construct()
     {
         // set repository
         $this->repository = new WalletRepository;
-        $this->usersHaveWalletsRepository = new UsersHaveWalletsRepository;
     }
 
     /**
@@ -36,18 +28,18 @@ class WalletController extends Controller
      * @param string $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(string $uuid = "") : JsonResponse
+    public function index(string $uuid) : JsonResponse
     {
-        return response()->json($this->usersHaveWalletsRepository->getUserWallets($uuid));
+        return response()->json($this->repository->findByUuid($uuid));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create new resource.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request) : JsonResponse
+    public function create(Request $request) : JsonResponse
     {
         try {
             $validator = validator()->make($request->all(), [
@@ -110,7 +102,7 @@ class WalletController extends Controller
      * @param string $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(string $uuid) : JsonResponse
+    public function delete(string $uuid) : JsonResponse
     {
         try {
             return response()->json($this->repository->deleteByUUid($uuid), 200);

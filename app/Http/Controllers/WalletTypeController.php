@@ -18,25 +18,12 @@ class WalletTypeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create new resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        if (auth()->user()->id == 1) {
-            # code...
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\WalletType  $walletType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(WalletType $walletType)
     {
         //
     }
@@ -59,7 +46,7 @@ class WalletTypeController extends Controller
      * @param  \App\WalletType  $walletType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WalletType $walletType)
+    public function delete(WalletType $walletType)
     {
         //
     }

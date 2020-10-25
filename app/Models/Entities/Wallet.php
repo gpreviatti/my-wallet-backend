@@ -12,7 +12,6 @@ class Wallet extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'wallet_types_id',
         'name',
         'uuid',
@@ -23,12 +22,19 @@ class Wallet extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
      */
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'users_have_wallets');
-    }
+    protected $hidden = [
+        'id',
+        'pivot',
+        'wallet_types_id',
+        'created_at',
+        'updated_at'
+    ];
+
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

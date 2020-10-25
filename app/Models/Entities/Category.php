@@ -12,7 +12,6 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'user_id',
         'category_id',
         'uuid',
@@ -20,6 +19,13 @@ class Category extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['id', 'user_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

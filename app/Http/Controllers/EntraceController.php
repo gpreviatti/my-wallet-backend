@@ -31,12 +31,12 @@ class EntraceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create new resource.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request) : JsonResponse
+    public function create(Request $request) : JsonResponse
     {
         $validator = validator()->make($request->all(), [
             'wallet_id' => 'required|string|exists:wallets,id',
