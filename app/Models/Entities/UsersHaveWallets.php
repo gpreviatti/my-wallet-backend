@@ -11,8 +11,5 @@ class UsersHaveWallets extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'user_id',
-        'wallet_id',
-    ];
+    protected $fillable = ['user_id', 'wallet_id'];
 }

@@ -37,7 +37,7 @@ class UserRepository extends Repository
     public function profile()
     {
         return $this->model
-        ->find(auth()->user()->id)
+        ->where('id', auth()->user()->id)
         ->with('wallets', 'wallets.type', 'categories')
         ->first();
     }
