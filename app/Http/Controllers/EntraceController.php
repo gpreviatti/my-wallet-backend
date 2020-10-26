@@ -75,46 +75,32 @@ class EntraceController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param string $entraceUuid
+     * @param string $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, string $entraceUuid) : JsonResponse
+    public function update(Request $request, string $uuid) : JsonResponse
     {
-        $validator = validator()->make($request->all(), [
-            'wallet_id' => 'required|string|exists:wallets,id',
-            'category_id' => 'required|string|exists:categories,id',
-            'ticker' => 'max:15',
-            'type' => 'max:20',
-            'description' => 'string|max:255',
-            'observation' => 'string|max:255',
-            'value' => 'numeric',
-        ]);
+        try {
+            $validator = validator()->make($request->all(), [
+                'wallet_uuid' => 'required|string|exists:wallets,uuid',
+                'category_uuid' => 'required|string|exists:categories,uuid',
+                'ticker' => 'max:15',
+                'type' => 'max:20',
+                'description' => 'string|max:255',
+                'observation' => 'string|max:255',
+                'value' => 'numeric',
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
-        }
-
-        $entrace = $this->repository->update($request->all(), 1);
-        if (!$entrace) {
-            return response()->json('Entrace not found', 400);
-        }
-
-        $newValue = isset($request->value) ?? 0;
-        /** validate if value if different then update in wallet table */
-        if ($newValue && $entrace->value != $newValue) {
-            if ($request->wallet_id && $request->category_id) {
-                $walletUpdate = $this->entraceUpdateValues($request->wallet_id, $request->category_id, $newValue);
-                if ($walletUpdate) {
-
-                    $entrace->update($request->all());
-                    return response()->json($entrace);
-                }
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()->all()
+                ], 400);
             }
+            return response()->json($this->repository->updateByUuid($request->all(), $uuid));
+        } catch (\Throwable $th) {
+            $this->handleException($th, "update");
         }
-        return response()->json('Error to update entrace');
     }
 
     /**
