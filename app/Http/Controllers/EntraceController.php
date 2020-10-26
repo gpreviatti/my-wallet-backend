@@ -97,7 +97,7 @@ class EntraceController extends Controller
             ], 400);
         }
 
-        $entrace = Entrace::where('uuid', $entraceUuid)->first();
+        $entrace = $this->repository->update($request->all(), 1);
         if (!$entrace) {
             return response()->json('Entrace not found', 400);
         }

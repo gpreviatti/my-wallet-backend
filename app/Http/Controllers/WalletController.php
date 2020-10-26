@@ -65,7 +65,7 @@ class WalletController extends Controller
                 'due_date' => 'integer',
                 'close_date' => 'integer',
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'success' => false,
