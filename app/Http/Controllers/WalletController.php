@@ -34,6 +34,21 @@ class WalletController extends Controller
     }
 
     /**
+     * Return all entraces of a specific wallet
+     *
+     * @param string $uuid
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function entraces(string $uuid)
+    {
+        try {
+            return response()->json($this->repository->entraces($uuid));
+        } catch (\Throwable $th) {
+            $this->handleException($th, "entraces");
+        }
+    }
+
+    /**
      * Create new resource.
      *
      * @param  \Illuminate\Http\Request $request
@@ -82,7 +97,7 @@ class WalletController extends Controller
                 'due_date' => 'integer',
                 'close_date' => 'integer',
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'success' => false,
@@ -105,7 +120,7 @@ class WalletController extends Controller
     public function delete(string $uuid) : JsonResponse
     {
         try {
-            return response()->json($this->repository->deleteByUUid($uuid), 200);
+            return response()->json($this->repository->deleteByUUid($uuid));
         } catch (\Throwable $th) {
             $this->handleException($th, "delete");
         }

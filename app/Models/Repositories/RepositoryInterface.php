@@ -14,6 +14,8 @@ interface RepositoryInterface
 
     public function delete(int $id);
 
+    public function deleteByUUid(string $uuid);
+
     public function show(int $id);
 
     public function findByUuid(string $uuid);

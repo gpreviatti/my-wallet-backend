@@ -24,6 +24,43 @@ class WalletRepository extends Repository
     }
 
     /**
+     * Return all entraces of a specific wallet
+     *
+     * @param string $uuid
+     * @return Model
+     */
+    public function entraces(string $uuid)
+    {
+        return $this->model->where(['uuid' => $uuid])
+        ->with('entraces')
+        ->first();
+    }
+
+    /**
+     * Incress or decress wallet value
+     *
+     * @param string $walletId
+     * @param string $categoryId
+     * @param float $entraceValue
+     * @return bool
+     */
+    public function updateValue(string $uuid, string $categoryUuid, float $value) : bool
+    {
+        /** update wallet value with type of category */
+        $wallet = $this->findByUuid($uuid);
+        $category = (new CategoryRepository)->findByUuid($categoryUuid);
+        if (in_array($category->id, [1, 2, 3, 4])) {
+            $newValue = $wallet->current_value + $value;
+        } else {
+            $newValue = $wallet->current_value - $value;
+        }
+        if (!$wallet->update(['current_value' => $newValue])) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Create new wallet for loged user
      *
      * @param array $data
@@ -50,20 +87,5 @@ class WalletRepository extends Repository
             "message" => "Wallet created with success",
             "data" => $wallet->toArray()
         ];
-    }
-
-    /**
-     * Delete resource by uuid
-     *
-     * @param string $uuid
-     * @return void
-     */
-    public function deleteByUUid(string $uuid) : array
-    {
-        $wallet = $this->findByUuid($uuid);
-        if ($this->repository->delete($wallet->id)) {
-            return ["success" => true, "message" => "Wallet deleted with success"];
-        };
-        return ["success" => false, "message" => "Error to delete wallet"];
     }
 }

@@ -11,7 +11,7 @@ class UserController extends Controller
     /**
      * repository variable
      *
-     * @var USerRepository
+     * @var UserRepository
      */
     private $repository;
 

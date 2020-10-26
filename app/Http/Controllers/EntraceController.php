@@ -2,32 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entities\Category;
-use App\Models\Entities\Entrace;
-use App\Models\Entities\Wallet;
+use App\Models\Repositories\EntraceRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class EntraceController extends Controller
 {
     /**
+     * repository variable
+     *
+     * @var EntraceRepository
+     */
+    private $repository;
+
+    public function __construct()
+    {
+        // set repository
+        $this->repository = new EntraceRepository;
+    }
+
+    /**
      * Display a listing of the resource.
      *
-     * @param string $walletUuid
-     * @param string $categoryUUid
+     * @param string $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(string $walletUuid, string $categoryUUid = null) : JsonResponse
+    public function index(string $uuid) : JsonResponse
     {
-        $wallet = Wallet::where('uuid', $walletUuid)->first();
-        $conditions['wallet_id'] = $wallet->id;
-        if ($categoryUUid) {
-            $category = Category::where('uuid', $categoryUUid)->first();
-            $conditions['category_id'] = $category->id;
+        try {
+            if ($uuid) {
+                return response()->json($this->repository->findByUuid($uuid));
+            }
+        } catch (\Throwable $th) {
+            $this->handleException($th, "index");
         }
-        return response()->json(Entrace::where($conditions)->get());
     }
 
     /**
@@ -38,54 +47,28 @@ class EntraceController extends Controller
      */
     public function create(Request $request) : JsonResponse
     {
-        $validator = validator()->make($request->all(), [
-            'wallet_id' => 'required|string|exists:wallets,id',
-            'category_id' => 'required|string|exists:categories,id',
-            'ticker' => 'max:15',
-            'type' => 'max:20',
-            'description' => 'string|required|max:255',
-            'observation' => 'string|max:255',
-            'value' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
-        }
-
-        DB::beginTransaction();
-        $walletUpdate = $this->entraceUpdateValues($request->wallet_id, $request->category_id, $request->value);
-        if ($walletUpdate) {
-            $newEntry = Entrace::create([
-                'uuid' => Str::uuid(),
-                'wallet_id' => $request->wallet_id,
-                'category_id' => $request->category_id,
-                'description' => $request->description,
-                'value' => $request->value,
-                'observation' => $request->observation ?? '',
-                'ticker' => $request->ticker ?? '',
-                'type' => $request->type ?? ''
+        try {
+            $validator = validator()->make($request->all(), [
+                'wallet_uuid' => 'required|string|exists:wallets,uuid',
+                'category_uuid' => 'required|string|exists:categories,uuid',
+                'ticker' => 'max:15',
+                'type' => 'max:20',
+                'description' => 'string|required|max:255',
+                'observation' => 'string|max:255',
+                'value' => 'required|numeric',
             ]);
-            if ($newEntry) {
-                DB::commit();
-                return response()->json($newEntry);
-            }
-        }
-        DB::rollBack();
-        return response()->json('Error to create entry');
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param string $uuid
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function show($uuid) : JsonResponse
-    {
-        return response()->json(Entrace::where('uuid', $uuid)->first());
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()->all()
+                ], 400);
+            }
+
+            return response()->json($this->repository->createEntrace($request->all()));
+        } catch (\Throwable $th) {
+            $this->handleException($th, "create");
+        }
     }
 
     /**
@@ -138,47 +121,15 @@ class EntraceController extends Controller
     /**
      * Delete the specified resource from storage.
      *
-     * @param string $entraceUuid
+     * @param string $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(string $entraceUuid) : JsonResponse
+    public function delete(string $uuid) : JsonResponse
     {
-        $entrace = Entrace::where('uuid', $entraceUuid)->first();
-        if ($entrace) {
-            $walletUpdate = $this->entraceUpdateValues(
-                $entrace->wallet_id,
-                $entrace->category_id,
-                -$entrace->value
-            );
-            if ($walletUpdate) {
-                $entrace->delete();
-                return response()->json('Entrace deleted successfully');
-            }
+        try {
+            return response()->json($this->repository->deleteByUUid($uuid));
+        } catch (\Throwable $th) {
+            $this->handleException($th, "delete");
         }
-        return response()->json('Error to delete entrace');
-    }
-
-    /**
-     * Update wallet current value
-     *
-     * @param string $walletId
-     * @param string $categoryId
-     * @param float $entraceValue
-     * @return bool
-     */
-    public function entraceUpdateValues(string $walletId, string $categoryId, float $entraceValue) : bool
-    {
-        /** update wallet value with type of category */
-        $wallet = Wallet::find($walletId);
-        if (in_array($categoryId, [1, 2, 3, 4])) {
-            $newValue = $wallet->current_value + $entraceValue;
-        } else {
-            $newValue = $wallet->current_value - $entraceValue;
-        }
-        if (!$wallet->update(['current_value' => $newValue])) {
-            DB::rollBack();
-            return false;
-        }
-        return true;
     }
 }

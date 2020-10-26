@@ -30,8 +30,7 @@ Route::group(['middleware' => ['api', 'guest']], function () {
     });
 
     Route::group(['prefix' => 'entraces'], function () {
-        Route::get('/show/{uuid}', [EntraceController::class, 'show']);
-        Route::get('/{walletUuid}/{categoryUUid?}', [EntraceController::class, 'index']);
+        Route::get('/{uuid}', [EntraceController::class, 'index']);
         Route::post('/', [EntraceController::class, 'create']);
         Route::put('/{uuid}', [EntraceController::class, 'update']);
         Route::delete('/{uuid}', [EntraceController::class, 'delete']);
@@ -44,6 +43,7 @@ Route::group(['middleware' => ['api', 'guest']], function () {
 
     Route::group(['prefix' => 'wallets'], function () {
         Route::get('/{uuid}', [WalletController::class, 'index']);
+        Route::get('/entraces/{uuid}', [WalletController::class, 'entraces']);
         Route::post('/', [WalletController::class, 'create']);
         Route::put('/{uuid}', [WalletController::class, 'update']);
         Route::delete('/{uuid}', [WalletController::class, 'delete']);

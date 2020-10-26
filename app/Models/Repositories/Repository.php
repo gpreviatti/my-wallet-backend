@@ -82,6 +82,21 @@ class Repository implements RepositoryInterface
     }
 
     /**
+     * Delete resource by uuid
+     *
+     * @param string $uuid
+     * @return void
+     */
+    public function deleteByUUid(string $uuid) : array
+    {
+        $model = $this->findByUuid($uuid);
+        if ($this->delete($model->id)) {
+            return ["success" => true, "message" => "deleted with success"];
+        };
+        return ["success" => false, "message" => "Error to delete"];
+    }
+
+    /**
      * show the record with the given id
      *
      * @param int $id
