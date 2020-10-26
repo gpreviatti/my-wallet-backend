@@ -35,7 +35,7 @@ class EntraceController extends Controller
                 return response()->json($this->repository->findByUuid($uuid));
             }
         } catch (\Throwable $th) {
-            $this->handleException($th, "index");
+            return $this->handleException($th, "index");
         }
     }
 
@@ -67,7 +67,7 @@ class EntraceController extends Controller
 
             return response()->json($this->repository->createEntrace($request->all()));
         } catch (\Throwable $th) {
-            $this->handleException($th, "create");
+            return $this->handleException($th, "create");
         }
     }
 
@@ -97,9 +97,9 @@ class EntraceController extends Controller
                     'errors' => $validator->errors()->all()
                 ], 400);
             }
-            return response()->json($this->repository->updateByUuid($request->all(), $uuid));
+            return response()->json($this->repository->updateEntrace($request->all(), $uuid));
         } catch (\Throwable $th) {
-            $this->handleException($th, "update");
+            return $this->handleException($th, "update");
         }
     }
 
@@ -114,7 +114,7 @@ class EntraceController extends Controller
         try {
             return response()->json($this->repository->deleteByUUid($uuid));
         } catch (\Throwable $th) {
-            $this->handleException($th, "delete");
+            return $this->handleException($th, "delete");
         }
     }
 }

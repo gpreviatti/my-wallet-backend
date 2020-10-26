@@ -54,7 +54,7 @@ class UserController extends Controller
                 "message" => "Fail to update user"
             ], 400);
         } catch (\Throwable $th) {
-            $this->handleException($th, "update");
+            return $this->handleException($th, "update");
         }
     }
 
@@ -77,7 +77,7 @@ class UserController extends Controller
                 "message" => "Fail to remove your user"
             ]);
         } catch (\Throwable $th) {
-            $this->handleException($th, "delete");
+            return $this->handleException($th, "delete");
         }
     }
 }

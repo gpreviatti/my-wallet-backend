@@ -29,5 +29,5 @@ class Entrace extends Model
      *
      * @var array
      */
-    protected $hidden = ['id'];
+    protected $hidden = ["id", "category_id", "wallet_id"];
 }

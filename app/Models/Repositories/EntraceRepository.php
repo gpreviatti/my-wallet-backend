@@ -81,6 +81,10 @@ class EntraceRepository extends Repository
         if (!$entraceUpdated) {
             return ["success" => false, "message" => "fail to update entrace"];
         }
-        return ["success" => true, "message" => "Entrace updated with success"];
+        return [
+            "success" => true,
+            "message" => "Entrace updated with success",
+            "data" => $category
+        ];
     }
 }

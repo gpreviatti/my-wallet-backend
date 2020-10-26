@@ -17,9 +17,8 @@ class CategoryRepository extends Repository
     /**
      * Return the common and user categories
      *
-     * @return Category
      */
-    public function getUserCategories() : Category
+    public function getUserCategories()
     {
         return $this->model->where([
             'user_id' => auth()->user()->id

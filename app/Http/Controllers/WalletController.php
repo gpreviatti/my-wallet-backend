@@ -44,7 +44,7 @@ class WalletController extends Controller
         try {
             return response()->json($this->repository->entraces($uuid));
         } catch (\Throwable $th) {
-            $this->handleException($th, "entraces");
+            return $this->handleException($th, "entraces");
         }
     }
 
@@ -75,7 +75,7 @@ class WalletController extends Controller
 
             return response()->json($this->repository->create($request->all()));
         } catch (\Throwable $th) {
-            $this->handleException($th, "store");
+            return $this->handleException($th, "store");
         }
     }
 
@@ -107,7 +107,7 @@ class WalletController extends Controller
 
             return response()->json($this->repository->updateByUuid($request->all(), $uuid));
         } catch (\Throwable $th) {
-            $this->handleException($th, "update");
+            return $this->handleException($th, "update");
         }
     }
 
@@ -122,7 +122,7 @@ class WalletController extends Controller
         try {
             return response()->json($this->repository->deleteByUUid($uuid));
         } catch (\Throwable $th) {
-            $this->handleException($th, "delete");
+            return $this->handleException($th, "delete");
         }
     }
 }

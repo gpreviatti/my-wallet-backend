@@ -84,7 +84,7 @@ class JWTAuthController extends Controller
         try {
             return response()->json($this->repository->profile());
         } catch (\Throwable $th) {
-            $this->handleException($th, "profile");
+            return $this->handleException($th, "profile");
         }
     }
 
@@ -99,7 +99,7 @@ class JWTAuthController extends Controller
             auth()->logout();
             return response()->json(['message' => 'Successfully logged out']);
         } catch (\Throwable $th) {
-            $this->handleException($th, "logout");
+            return $this->handleException($th, "logout");
         }
     }
 
@@ -113,7 +113,7 @@ class JWTAuthController extends Controller
         try {
             return $this->createNewToken(auth()->refresh());
         } catch (\Throwable $th) {
-            $this->handleException($th, "refresh");
+            return $this->handleException($th, "refresh");
         }
     }
 
@@ -133,7 +133,7 @@ class JWTAuthController extends Controller
                 'expires_in' => auth()->factory()->getTTL() * 60
             ]);
         } catch (\Throwable $th) {
-            $this->handleException($th, "createNewToken");
+            return $this->handleException($th, "createNewToken");
         }
     }
 }
