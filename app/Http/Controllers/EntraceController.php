@@ -102,7 +102,6 @@ class EntraceController extends Controller
             return response()->json('Entrace not found', 400);
         }
 
-        DB::beginTransaction();
         $newValue = isset($request->value) ?? 0;
         /** validate if value if different then update in wallet table */
         if ($newValue && $entrace->value != $newValue) {
@@ -110,7 +109,6 @@ class EntraceController extends Controller
                 $walletUpdate = $this->entraceUpdateValues($request->wallet_id, $request->category_id, $newValue);
                 if ($walletUpdate) {
                     $entrace->update($request->all());
-                    DB::commit();
                     return response()->json($entrace);
                 }
             }
