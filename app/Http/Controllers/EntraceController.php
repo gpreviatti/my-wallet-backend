@@ -108,6 +108,7 @@ class EntraceController extends Controller
             if ($request->wallet_id && $request->category_id) {
                 $walletUpdate = $this->entraceUpdateValues($request->wallet_id, $request->category_id, $newValue);
                 if ($walletUpdate) {
+
                     $entrace->update($request->all());
                     return response()->json($entrace);
                 }
