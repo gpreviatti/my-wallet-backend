@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\WalletType;
+use App\Models\Entities\WalletType;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 

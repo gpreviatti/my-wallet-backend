@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
+use App\Models\Entities\Category;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 

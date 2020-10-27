@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\UsersHaveWallets;
-use App\Models\Wallet;
+use App\Models\Entities\UsersHaveWallets;
+use App\Models\Entities\Wallet;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
