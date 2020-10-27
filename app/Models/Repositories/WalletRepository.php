@@ -27,13 +27,14 @@ class WalletRepository extends Repository
      * Return all entraces of a specific wallet
      *
      * @param string $uuid
-     * @return Model
+     * @return array
      */
-    public function entraces(string $uuid)
+    public function entraces(string $uuid) : array
     {
         return $this->model->where(['uuid' => $uuid])
         ->with('entraces')
-        ->first();
+        ->first()
+        ->toArray();
     }
 
     /**

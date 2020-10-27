@@ -26,7 +26,7 @@ class EntraceController extends Controller
      * Display a listing of the resource.
      *
      * @param string $uuid
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(string $uuid) : JsonResponse
     {
@@ -42,8 +42,8 @@ class EntraceController extends Controller
     /**
      * Create new resource.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param  Request $request
+     * @return JsonResponse
      */
     public function create(Request $request) : JsonResponse
     {
@@ -76,7 +76,7 @@ class EntraceController extends Controller
      *
      * @param Request $request
      * @param string $uuid
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(Request $request, string $uuid) : JsonResponse
     {
@@ -107,7 +107,7 @@ class EntraceController extends Controller
      * Delete the specified resource from storage.
      *
      * @param string $uuid
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function delete(string $uuid) : JsonResponse
     {

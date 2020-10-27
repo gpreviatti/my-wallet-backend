@@ -25,7 +25,7 @@ class JWTAuthController extends Controller
     /**
      * Register a User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function register(Request $request)
     {
@@ -54,7 +54,7 @@ class JWTAuthController extends Controller
     /**
      * Get a JWT via given credentials.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function login(Request $request)
     {
@@ -77,7 +77,7 @@ class JWTAuthController extends Controller
     /**
      * Get the authenticated User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function profile()
     {
@@ -91,7 +91,7 @@ class JWTAuthController extends Controller
     /**
      * Log the user out (Invalidate the token).
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function logout()
     {
@@ -106,7 +106,7 @@ class JWTAuthController extends Controller
     /**
      * Refresh a token.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function refresh()
     {
@@ -122,7 +122,7 @@ class JWTAuthController extends Controller
      *
      * @param  string $token
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function createNewToken($token)
     {

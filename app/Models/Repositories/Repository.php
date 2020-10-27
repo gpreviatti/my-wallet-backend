@@ -49,11 +49,11 @@ class Repository implements RepositoryInterface
      *
      * @param array $data
      * @param int $id
-     * @return void
+     * @return bool
      */
-    public function update(array $data, int $id)
+    public function update(array $data, int $id) : bool
     {
-        $record = $this->find($id);
+        $record = $this->show($id);
         return $record->update($data);
     }
 
@@ -62,12 +62,19 @@ class Repository implements RepositoryInterface
      *
      * @param array $data
      * @param string $uuid
-     * @return void
+     * @return array
      */
-    public function updateByUuid(array $data, string $uuid)
+    public function updateByUuid(array $data, string $uuid) : array
     {
         $record = $this->findByUuid($uuid);
-        return $record->update($data);
+        if ($record->update($data)) {
+            return [
+                "success" => true,
+                "message" => "Updated with success",
+                "data" => $data
+            ];
+        }
+        return ["success" => false, "message" => "Fail to update"];
     }
 
     /**
@@ -91,7 +98,7 @@ class Repository implements RepositoryInterface
     {
         $model = $this->findByUuid($uuid);
         if ($this->delete($model->id)) {
-            return ["success" => true, "message" => "deleted with success"];
+            return ["success" => true, "message" => "Deleted with success"];
         };
         return ["success" => false, "message" => "Error to delete"];
     }
@@ -100,7 +107,7 @@ class Repository implements RepositoryInterface
      * show the record with the given id
      *
      * @param int $id
-     * @return Model
+     * @return
      */
     public function show(int $id)
     {

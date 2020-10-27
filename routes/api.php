@@ -7,6 +7,7 @@ use App\Http\Controllers\EntraceController;
 use App\Http\Controllers\JWTAuthController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WalletTypeController;
 
 Route::post('login', [JWTAuthController::class, 'login']);
 Route::post('register', [JWTAuthController::class, 'register']);
@@ -18,8 +19,16 @@ Route::group(['middleware' => ['api', 'guest']], function () {
         Route::delete('logout', [JWTAuthController::class, 'logout']);
     });
 
+    /**
+     * Routes allowed just for admin user
+     */
     Route::group(['middleware' => 'admin.allow'], function () {
-        Route::apiResources(['wallets-types' => App\Http\Controllers\WalletTypeController::class]);
+        Route::group(['prefix' => 'wallets-types'], function () {
+            Route::get('/{uuid?}', [WalletTypeController::class, 'index']);
+            Route::post('/', [WalletTypeController::class, 'create']);
+            Route::put('/{uuid}', [WalletTypeController::class, 'update']);
+            Route::delete('/{uuid}', [WalletTypeController::class, 'delete']);
+        });
     });
 
     Route::group(['prefix' => 'categories'], function () {

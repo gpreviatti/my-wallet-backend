@@ -50,7 +50,7 @@ class EntraceRepository extends Repository
             return [
                 "success" => true,
                 "message" => "Entrace created with success",
-                "data" => $data
+                "data" => $data->toArray()
             ];
         }
         return ["success" => false, "message" => "Fail to create entrace"];
@@ -79,12 +79,8 @@ class EntraceRepository extends Repository
         $walletRepository->updateValue($wallet->uuid, $category->uuid, $data['value']);
         $entraceUpdated = $this->updateByUuid($data, $uuid);
         if (!$entraceUpdated) {
-            return ["success" => false, "message" => "fail to update entrace"];
+            return ["success" => false, "message" => "Fail to update entrace"];
         }
-        return [
-            "success" => true,
-            "message" => "Entrace updated with success",
-            "data" => $category
-        ];
+        return $entraceUpdated;
     }
 }

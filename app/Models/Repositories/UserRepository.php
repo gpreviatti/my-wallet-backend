@@ -19,26 +19,28 @@ class UserRepository extends Repository
      * Create a user
      *
      * @param array $data
-     * @return void
+     * @return array
      */
-    public function createWithUuid(array $data)
+    public function createWithUuid(array $data) : array
     {
-        return $this->create(array_merge(
+        $newUser = $this->create(array_merge(
             $data,
             ['password' => bcrypt($data['password']), 'uuid' => Str::uuid()]
         ));
+        return $newUser->toArray();
     }
 
     /**
      * Return user profile with his wallets and custom categories
      *
-     * @return void
+     * @return array
      */
-    public function profile()
+    public function profile() : array
     {
         return $this->model
         ->where('id', auth()->user()->id)
         ->with('wallets', 'wallets.type', 'categories')
-        ->first();
+        ->first()
+        ->toArray();
     }
 }

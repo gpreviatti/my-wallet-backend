@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -16,9 +17,9 @@ class Controller extends BaseController
     *
     * @param \Throwable $th
     * @param string $title
-    * @return \Illuminate\Http\Response
+    * @return JsonResponse
     */
-    public function handleException(\Throwable $th, $title = "")
+    public function handleException(\Throwable $th, $title = "") : JsonResponse
     {
         logger()->error(
             "[Category erro] " . $title,
