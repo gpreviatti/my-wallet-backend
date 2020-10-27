@@ -24,9 +24,9 @@ class UserController extends Controller
     /**
      * Update your own user
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  Request $request
      * @param string $uuid
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(Request $request) : JsonResponse
     {
@@ -54,14 +54,14 @@ class UserController extends Controller
                 "message" => "Fail to update user"
             ], 400);
         } catch (\Throwable $th) {
-            $this->handleException($th, "update");
+            return $this->handleException($th, "update");
         }
     }
 
     /**
      * Delete user own user
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function delete() : JsonResponse
     {
@@ -77,7 +77,7 @@ class UserController extends Controller
                 "message" => "Fail to remove your user"
             ]);
         } catch (\Throwable $th) {
-            $this->handleException($th, "delete");
+            return $this->handleException($th, "delete");
         }
     }
 }

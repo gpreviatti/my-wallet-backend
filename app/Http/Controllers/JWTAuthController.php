@@ -25,7 +25,7 @@ class JWTAuthController extends Controller
     /**
      * Register a User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function register(Request $request)
     {
@@ -54,7 +54,7 @@ class JWTAuthController extends Controller
     /**
      * Get a JWT via given credentials.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function login(Request $request)
     {
@@ -77,21 +77,21 @@ class JWTAuthController extends Controller
     /**
      * Get the authenticated User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function profile()
     {
         try {
             return response()->json($this->repository->profile());
         } catch (\Throwable $th) {
-            $this->handleException($th, "profile");
+            return $this->handleException($th, "profile");
         }
     }
 
     /**
      * Log the user out (Invalidate the token).
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function logout()
     {
@@ -99,21 +99,21 @@ class JWTAuthController extends Controller
             auth()->logout();
             return response()->json(['message' => 'Successfully logged out']);
         } catch (\Throwable $th) {
-            $this->handleException($th, "logout");
+            return $this->handleException($th, "logout");
         }
     }
 
     /**
      * Refresh a token.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function refresh()
     {
         try {
             return $this->createNewToken(auth()->refresh());
         } catch (\Throwable $th) {
-            $this->handleException($th, "refresh");
+            return $this->handleException($th, "refresh");
         }
     }
 
@@ -122,7 +122,7 @@ class JWTAuthController extends Controller
      *
      * @param  string $token
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function createNewToken($token)
     {
@@ -133,7 +133,7 @@ class JWTAuthController extends Controller
                 'expires_in' => auth()->factory()->getTTL() * 60
             ]);
         } catch (\Throwable $th) {
-            $this->handleException($th, "createNewToken");
+            return $this->handleException($th, "createNewToken");
         }
     }
 }

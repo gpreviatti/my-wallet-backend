@@ -16,7 +16,7 @@ class EntraceRepository extends Repository
     }
 
     /**
-     * Create a new entrace
+     * Create entrace
      *
      * @param array $data
      * @return array
@@ -50,9 +50,37 @@ class EntraceRepository extends Repository
             return [
                 "success" => true,
                 "message" => "Entrace created with success",
-                "data" => $data
+                "data" => $data->toArray()
             ];
         }
         return ["success" => false, "message" => "Fail to create entrace"];
+    }
+
+    /**
+     * Update entrace
+     *
+     * @param array $data
+     * @param string $uuid
+     * @return array
+     */
+    public function updateEntrace(array $data, string $uuid) : array
+    {
+        $category = (new CategoryRepository)->findByUuid($data['category_uuid']);
+        if (!$category) {
+            return ["success" => false, "message" => "Category not found"];
+        }
+
+        $walletRepository = new WalletRepository;
+        $wallet = $walletRepository->findByUuid($data['wallet_uuid']);
+        if (!$wallet) {
+            return ["success" => false, "message" => "Wallet not found"];
+        }
+
+        $walletRepository->updateValue($wallet->uuid, $category->uuid, $data['value']);
+        $entraceUpdated = $this->updateByUuid($data, $uuid);
+        if (!$entraceUpdated) {
+            return ["success" => false, "message" => "Fail to update entrace"];
+        }
+        return $entraceUpdated;
     }
 }

@@ -26,7 +26,7 @@ class WalletController extends Controller
      * Display the specified resource.
      *
      * @param string $uuid
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(string $uuid) : JsonResponse
     {
@@ -37,22 +37,22 @@ class WalletController extends Controller
      * Return all entraces of a specific wallet
      *
      * @param string $uuid
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function entraces(string $uuid)
     {
         try {
             return response()->json($this->repository->entraces($uuid));
         } catch (\Throwable $th) {
-            $this->handleException($th, "entraces");
+            return $this->handleException($th, "entraces");
         }
     }
 
     /**
      * Create new resource.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param  Request $request
+     * @return JsonResponse
      */
     public function create(Request $request) : JsonResponse
     {
@@ -73,24 +73,24 @@ class WalletController extends Controller
                 ], 400);
             }
 
-            return response()->json($this->repository->create($request->all()));
+            return response()->json($this->repository->createUserWallet($request->all()));
         } catch (\Throwable $th) {
-            $this->handleException($th, "store");
+            return $this->handleException($th, "store");
         }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  Request $request
      * @param string $uuid
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(Request $request, string $uuid) : JsonResponse
     {
         try {
             $validator = validator()->make($request->all(), [
-                'wallet_types_id' => 'required|integer|exists:wallet_types,id',
+                'wallet_types_id' => 'integer|exists:wallet_types,id',
                 'name' => 'max:50',
                 'description' => 'max:255',
                 'current_value' => 'numeric',
@@ -107,7 +107,7 @@ class WalletController extends Controller
 
             return response()->json($this->repository->updateByUuid($request->all(), $uuid));
         } catch (\Throwable $th) {
-            $this->handleException($th, "update");
+            return $this->handleException($th, "update");
         }
     }
 
@@ -115,14 +115,14 @@ class WalletController extends Controller
      * Delete resource.
      *
      * @param string $uuid
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function delete(string $uuid) : JsonResponse
     {
         try {
             return response()->json($this->repository->deleteByUUid($uuid));
         } catch (\Throwable $th) {
-            $this->handleException($th, "delete");
+            return $this->handleException($th, "delete");
         }
     }
 }

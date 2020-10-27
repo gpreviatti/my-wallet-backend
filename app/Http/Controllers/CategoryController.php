@@ -24,7 +24,7 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      *
      * @param string $uuid
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(string $uuid = null)
     {
@@ -41,8 +41,8 @@ class CategoryController extends Controller
     /**
      * Create new resource.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  Request $request
+     * @return Response
      */
     public function create(Request $request)
     {
@@ -79,9 +79,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  Request $request
      * @param string $uuid
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, string $uuid)
     {
@@ -109,7 +109,7 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param string $uuid
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function delete(string $uuid)
     {

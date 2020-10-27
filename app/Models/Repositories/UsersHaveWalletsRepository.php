@@ -18,15 +18,15 @@ class UsersHaveWalletsRepository extends Repository
      * Return user wallets or a specifc one by uuid
      *
      * @param string $uuid
-     * @return void
+     * @return array
      */
-    public function getUserWallets(string $uuid = "")
+    public function getUserWallets(string $uuid = "") : array
     {
         $conditions['user_id'] = auth()->user()->id;
         if ($uuid) {
             $conditions['uuid'] = $uuid;
-            return $this->model->where($conditions)->first();
+            return $this->model->where($conditions)->first()->toArray();
         }
-        return $this->model->where($conditions)->get();
+        return $this->model->where($conditions)->get()->toArray();
     }
 }
